@@ -64,3 +64,36 @@ test('clicking a button increments counter display', () => {
     const counterDisplay = findByTestAttr(wrapper, 'counter-display');
     expect(counterDisplay.text()).toContain(count + 1)
 });
+
+test('clicking a button decrements counter display', () => {
+    const count = 5;
+    const wrapper = setup(null, { count });
+
+    const button = findByTestAttr(wrapper, 'decrement-button');
+    button.simulate('click');
+
+    const counterDisplay = findByTestAttr(wrapper, 'counter-display');
+    expect(counterDisplay.text()).toContain(count - 1)
+});
+
+test('check display of error message', () => {
+    const count = 0;
+    const wrapper = setup(null, { count });
+
+    const button = findByTestAttr(wrapper, 'decrement-button');
+    button.simulate('click');
+
+    const negativeDisplay = findByTestAttr(wrapper, 'negative-message');
+    expect(negativeDisplay.length).toBe(1);
+});
+
+test('check unmount of error message', () => {
+    const count = -1;
+    const wrapper = setup(null, { count });
+
+    const button = findByTestAttr(wrapper, 'increment-button');
+    button.simulate('click');
+
+    const negativeDisplay = findByTestAttr(wrapper, 'negative-message');
+    expect(negativeDisplay.length).toBe(0);
+});
